@@ -2,25 +2,18 @@ package com.rai69.literalura.model;
 
 import jakarta.persistence.*;
 
-import java.util.HashSet;
-import java.util.Set;
-
 @Entity
 @Table
-public class Book {
+public class BookModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
     private String title;
-    private String[] languages;
+    private String language;
     private int downloadCount;
-    @ManyToMany
-    @JoinTable(
-            name = "book_author",
-            joinColumns = @JoinColumn(name = "book_id"),
-            inverseJoinColumns = @JoinColumn(name = "author_id")
-    )
-    private Set<Author> authors = new HashSet<>();
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "author_id")
+    private AuthorModel author;
 
     public Long getId() {
         return Id;
@@ -38,12 +31,12 @@ public class Book {
         this.title = title;
     }
 
-    public String[] getLanguages() {
-        return languages;
+    public String getLanguage() {
+        return language;
     }
 
-    public void setLanguages(String[] languages) {
-        this.languages = languages;
+    public void setLanguage(String language) {
+        this.language = language;
     }
 
     public int getDownloadCount() {
@@ -53,10 +46,22 @@ public class Book {
     public void setDownloadCount(int downloadCount) {
         this.downloadCount = downloadCount;
     }
-    public Set<Author> getAuthors() {
-        return authors;
+
+    public AuthorModel getAuthor() {
+        return author;
     }
-    public void setAuthors(Set<Author> authors) {
-        this.authors = authors;
+
+    public void setAuthor(AuthorModel author) {
+        this.author = author;
+    }
+
+    @Override
+    public String toString() {
+        return "\n" + "----------- + Libro + ----------- \n" +
+                "Título: " + title +
+                (language != null ? " \n Idioma: " + language : "") +
+                (downloadCount > 0 ? " \n Descargas: " + downloadCount : "") +
+                 (author != null ? author.toString() : "")+
+                "\n" + "----------- + Libro + ----------- ";
     }
 }

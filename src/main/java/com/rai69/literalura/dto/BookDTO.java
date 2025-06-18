@@ -2,32 +2,22 @@ package com.rai69.literalura.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import java.util.List;
-
 @JsonIgnoreProperties(ignoreUnknown = true)
-public record Book(
+public record BookDTO(
     String title,
-    List<Author> authors,
-    List<String> languages,
+    AuthorDTO author,
+    String language,
     int download_count
 ) {
-
     @Override
     public String toString() {
-        return  "Titulo = " + title + '\n' +
-                "Autor@(s) = " +
-                authors.stream()
-                        .map(Author::toString)
-                        .reduce((a, b) -> a + " / " + b)
-                        .orElse("No autores")
-                +
+        return  "\n" + " ----------- + Libro + ----------- " + "\n" + 
+                "Titulo = " + title + '\n' +
+                "Autor = " + (author != null ? author.toString() : "No autor") +
                 '\n' +
-                "Lenguajes = " +
-                languages.stream()
-                        .reduce((a, b) -> a + " / " + b)
-                        .orElse("No hay información")
-                +
+                "Lenguaje = " + (language != null ? language : "N/I") +
                 '\n' +
-                "Descargas = " + download_count;
+                "Descargas = " + download_count
+                + "\n" + " ----------- + Libro + ----------- ";
     }
 }

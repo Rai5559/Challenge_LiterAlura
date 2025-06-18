@@ -2,20 +2,15 @@ package com.rai69.literalura.model;
 
 import jakarta.persistence.*;
 
-import java.util.HashSet;
-import java.util.Set;
-
 @Entity
 @Table
-public class Author {
+public class AuthorModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
     private String name;
     private String birthDate;
     private String deathDate;
-    @ManyToMany(mappedBy = "authors")
-    private Set<Book> books = new HashSet<>();
 
     public Long getId() {
         return Id;
@@ -49,11 +44,12 @@ public class Author {
         this.deathDate = deathDate;
     }
 
-    public Set<Book> getBooks() {
-        return books;
-    }
-
-    public void setBooks(Set<Book> books) {
-        this.books = books;
+    @Override
+    public String toString() {
+        return "\n" + "----------- + Autor + ----------- \n" +
+                "Autor: " + name +
+               (birthDate != null ? " \nNacimiento: " + birthDate : "") +
+               (deathDate != null ? " \nFallecimiento: " + deathDate : "") +
+               "\n"+ "----------- + Autor + ----------- ";
     }
 }
